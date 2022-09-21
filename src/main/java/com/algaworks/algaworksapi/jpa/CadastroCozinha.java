@@ -20,10 +20,18 @@ public class CadastroCozinha {
 
        return  query.getResultList();
     }
+    public Cozinha buscar(Long id) {
+        return maneger.find(Cozinha.class,id);
+    }
 
     @Transactional
-    public Cozinha adicionar (Cozinha cozinha) {
+    public Cozinha salvar(Cozinha cozinha) {
         return maneger.merge(cozinha);
+    }
 
+    @Transactional
+    public void remover(Cozinha cozinha) {
+        cozinha = buscar(cozinha.getId());
+        maneger.remove(cozinha);
     }
 }
