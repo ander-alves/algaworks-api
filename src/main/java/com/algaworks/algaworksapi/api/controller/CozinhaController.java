@@ -3,14 +3,15 @@ package com.algaworks.algaworksapi.api.controller;
 import com.algaworks.algaworksapi.domain.model.Cozinha;
 import com.algaworks.algaworksapi.domain.repository.CozinhaRepositry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/cozinhas")
+@RestController
+@RequestMapping("/cozinhas") //Boa pratica colocar no plural.
 public class CozinhaController {
 
     @Autowired
@@ -19,5 +20,10 @@ public class CozinhaController {
     @GetMapping
     public List<Cozinha> listar() {
         return cozinhaRepositry.listar();
+    }
+
+    @GetMapping("/{cozinhaId}")
+    public Cozinha buscar (@PathVariable("cozinhaId") Long id) {
+        return cozinhaRepositry.buscar(id);
     }
 }
