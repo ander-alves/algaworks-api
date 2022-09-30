@@ -1,8 +1,6 @@
 package com.algaworks.algaworksapi.infrastructure.repository;
 
-import com.algaworks.algaworksapi.domain.model.Cozinha;
 import com.algaworks.algaworksapi.domain.model.Restaurante;
-import com.algaworks.algaworksapi.domain.repository.CozinhaRepositry;
 import com.algaworks.algaworksapi.domain.repository.RestauranteRepositry;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

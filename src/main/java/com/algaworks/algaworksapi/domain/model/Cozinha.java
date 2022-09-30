@@ -15,10 +15,10 @@ public class Cozinha {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore //nao mostra a propriedade no json solicitado pelo consumidor da api//
+    //@JsonIgnore //nao mostra a propriedade no json solicitado pelo consumidor da api//
     private Long id;
 
-    @JsonProperty("titulo") //muda a representação para os consumidores da api, NAO MUDA A PROPRIEDADE.//
+    //@JsonProperty("titulo") //muda a representação para os consumidores da api, NAO MUDA A PROPRIEDADE.//
     @Column(nullable = false)
     private String nome;
 

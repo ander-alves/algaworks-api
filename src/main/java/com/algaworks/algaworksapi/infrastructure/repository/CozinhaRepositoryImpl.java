@@ -1,7 +1,7 @@
 package com.algaworks.algaworksapi.infrastructure.repository;
 
 import com.algaworks.algaworksapi.domain.model.Cozinha;
-import com.algaworks.algaworksapi.domain.repository.CozinhaRepositry;
+import com.algaworks.algaworksapi.domain.repository.CozinhaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Component
-public class CozinhaRepositoryImpl implements CozinhaRepositry {
+public class CozinhaRepositoryImpl implements CozinhaRepository {
    @PersistenceContext
    private EntityManager manager;
 
