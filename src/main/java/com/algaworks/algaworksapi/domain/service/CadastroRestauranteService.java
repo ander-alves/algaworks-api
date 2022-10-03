@@ -10,7 +10,9 @@ package com.algaworks.algaworksapi.domain.service;
 
 import com.algaworks.algaworksapi.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algaworksapi.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algaworksapi.domain.model.Cozinha;
 import com.algaworks.algaworksapi.domain.model.Restaurante;
+import com.algaworks.algaworksapi.domain.repository.CozinhaRepository;
 import com.algaworks.algaworksapi.domain.repository.RestauranteRepositry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,7 +26,19 @@ public class CadastroRestauranteService {
     @Autowired
     private RestauranteRepositry restauranteRepositry;
 
+    @Autowired
+    private CozinhaRepository cozinhaRepository;
+
     public Restaurante salvar(Restaurante restaurante) {
+        Long cozinhaId = restaurante.getCozinha().getId();
+        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+        if (cozinha == null) {
+            throw new EntidadeNaoEncontradaException(
+                    String.format("Nao existe nenhuma coziha com o ID informado %d " ,cozinhaId)
+            );
+        }
+        restaurante.setCozinha(cozinha);
+
         return restauranteRepositry.salvar(restaurante);
     }
 
