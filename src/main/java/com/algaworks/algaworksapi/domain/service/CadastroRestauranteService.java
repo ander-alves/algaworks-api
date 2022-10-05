@@ -19,6 +19,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CadastroRestauranteService {
 
@@ -31,20 +33,20 @@ public class CadastroRestauranteService {
 
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
-        if (cozinha == null) {
+        Optional<Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
+        if (cozinha.isPresent()) {
             throw new EntidadeNaoEncontradaException(
                     String.format("Nao existe nenhuma coziha com o ID informado %d " ,cozinhaId)
             );
         }
-        restaurante.setCozinha(cozinha);
+        restaurante.setCozinha(cozinha.get());
 
-        return restauranteRepositry.salvar(restaurante);
+        return restauranteRepositry.save(restaurante);
     }
 
     public void excluir(Long restauranteId) {
         try {
-            restauranteRepositry.remover(restauranteId);
+            restauranteRepositry.deleteById(restauranteId);
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaException(String.format(
                     "Nao Existe um cadastro de Restaurante referente ao codigo %d", restauranteId

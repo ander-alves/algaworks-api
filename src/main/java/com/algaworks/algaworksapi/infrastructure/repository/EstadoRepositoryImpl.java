@@ -1,17 +1,15 @@
 package com.algaworks.algaworksapi.infrastructure.repository;
 
-import java.util.List;
+import com.algaworks.algaworksapi.domain.model.Estado;
+import com.algaworks.algaworksapi.domain.repository.EstadoRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.algaworks.algaworksapi.domain.model.Estado;
-import com.algaworks.algaworksapi.domain.repository.EstadoRepository;
-
-@Component
+@Repository
 public class EstadoRepositoryImpl implements EstadoRepository {
 
 	@PersistenceContext
