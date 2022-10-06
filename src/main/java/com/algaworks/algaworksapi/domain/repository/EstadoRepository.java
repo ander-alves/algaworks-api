@@ -1,14 +1,9 @@
 package com.algaworks.algaworksapi.domain.repository;
 
-import java.util.List;
-
 import com.algaworks.algaworksapi.domain.model.Estado;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface EstadoRepository {
-
-	List<Estado> listar();
-	Estado buscar(Long id);
-	Estado salvar(Estado estado);
-	void remover(Estado estado);
-	
+@Repository
+public interface EstadoRepository extends JpaRepository<Estado, Long> {
 }
