@@ -1,6 +1,7 @@
 package com.algaworks.algaworksapi.domain.model;
 
-import com.algaworks.algaworksapi.Groups;
+import com.algaworks.algaworksapi.core.validation.Groups;
+import com.algaworks.algaworksapi.core.validation.ValorZeroIncluiDescricao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +23,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@ValorZeroIncluiDescricao(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria = "frete gratis")
 public class Restaurante {
 
 	@EqualsAndHashCode.Include

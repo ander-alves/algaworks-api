@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
-import com.algaworks.algaworksapi.Groups;
+import com.algaworks.algaworksapi.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,7 +32,7 @@ public class Cidade {
 	private String nome;
 
 	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.CidadeId.class)
+	@ConvertGroup(from = Default.class, to = Groups.EstadoId.class)
 	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)

@@ -7,10 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
-import com.algaworks.algaworksapi.Groups;
+import com.algaworks.algaworksapi.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +20,7 @@ public class Estado {
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotNull(groups = Groups.CidadeId.class)
+	@NotNull(groups = Groups.EstadoId.class)
 	private Long id;
 
 	@NotBlank
