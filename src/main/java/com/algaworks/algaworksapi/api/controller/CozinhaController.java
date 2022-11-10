@@ -45,10 +45,11 @@ public class CozinhaController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public CozinhaDTO adicionar(@RequestBody @Valid CozinhaIdInputDTO cozinhaIdInputDTO) {
-		Cozinha cozinha = cozinhaInputDTOConverterToCozinha.toDomainObject(cozinhaIdInputDTO);
+	public CozinhaDTO adicionar(@RequestBody @Valid CozinhaInputDTO cozinhaInput) {
+		Cozinha cozinha = cozinhaInputDTOConverterToCozinha.toDomainObject(cozinhaInput);
+		cozinha = cadastroCozinha.salvar(cozinha);
 
-		return cozinhaConverterToDTO.toDTO(cadastroCozinha.salvar(cozinha));
+		return cozinhaConverterToDTO.toDTO(cozinha);
 	}
 
 	@PutMapping("/{cozinhaId}")
