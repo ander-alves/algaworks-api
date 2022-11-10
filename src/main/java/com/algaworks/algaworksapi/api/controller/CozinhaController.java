@@ -1,6 +1,11 @@
 package com.algaworks.algaworksapi.api.controller;
 
+import com.algaworks.algaworksapi.api.converter.CozinhaDtoConverter;
+import com.algaworks.algaworksapi.api.converter.CozinhaInputConverter;
+import com.algaworks.algaworksapi.api.model.CozinhaDTO;
+import com.algaworks.algaworksapi.api.model.input.CozinhaIdInputDTO;
 import com.algaworks.algaworksapi.domain.model.Cozinha;
+import com.algaworks.algaworksapi.domain.model.Restaurante;
 import com.algaworks.algaworksapi.domain.repository.CozinhaRepository;
 import com.algaworks.algaworksapi.domain.service.CadastroCozinhaService;
 import org.springframework.beans.BeanUtils;
@@ -20,21 +25,31 @@ public class CozinhaController {
 	
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
-	
+
+	@Autowired
+	CozinhaDtoConverter cozinhaDtoConverter;
+
+	@Autowired
+	CozinhaInputConverter cozinhaInputConverter;
+
 	@GetMapping
-	public List<Cozinha> listar() {
-		return cozinhaRepository.findAll();
+	public List<CozinhaDTO> listar() {
+		return cozinhaDtoConverter.toCollectionDTO(cozinhaRepository.findAll());
 	}
 	
 	@GetMapping("/{cozinhaId}")
-	public Cozinha buscar(@PathVariable Long cozinhaId) {
-		return cadastroCozinha.buscarOuFalhar(cozinhaId);
+	public CozinhaDTO buscar(@PathVariable Long cozinhaId) {
+		Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
+
+		return cozinhaDtoConverter.toDTO(cozinha);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
-		return cadastroCozinha.salvar(cozinha);
+	public CozinhaDTO adicionar(@RequestBody @Valid CozinhaIdInputDTO cozinhaIdInputDTO) {
+		Cozinha cozinha = cozinhaInputConverter.toDomainObject(cozinhaIdInputDTO);
+
+		return cozinhaDtoConverter.toDTO(cadastroCozinha.salvar(cozinha));
 	}
 
 	@PutMapping("/{cozinhaId}")
