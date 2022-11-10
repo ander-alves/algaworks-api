@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RestauranteDtoConverter {
+public class RestauranteConverterToDTO {
 
     @Autowired
     private  ModelMapper modelMapper;
@@ -24,4 +24,5 @@ public class RestauranteDtoConverter {
                 .map(restaurante -> toDTO(restaurante))
                 .collect(Collectors.toList());
     }
+
 }
