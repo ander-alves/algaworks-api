@@ -16,10 +16,11 @@ public class modelMapperConfig {
 
 //        var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(
 //                Endereco.class, EnderecoDTO.class);
-
+//
 //        enderecoToEnderecoModelTypeMap.<String>addMapping(
-//                enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome(),
-//                (enderecoModelDest, value) -> enderecoModelDest.getCidade().setNomeEstado(value));
+//                src -> src.getCidade().getEstado().getNome(),
+//                (dest, value) -> dest.getCidade().setEstado(value));
+//
 // TODO Verificar motico de estar Dando Conflito.
 
 

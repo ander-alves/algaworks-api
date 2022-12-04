@@ -1,6 +1,7 @@
 package com.algaworks.algaworksapi.api.converter;
 
 import com.algaworks.algaworksapi.api.model.input.RestauranteInputDTO;
+import com.algaworks.algaworksapi.domain.model.Cidade;
 import com.algaworks.algaworksapi.domain.model.Cozinha;
 import com.algaworks.algaworksapi.domain.model.Restaurante;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,10 @@ public class RestauranteInputDTOConverterToRestaurante {
     }
     public void copyToDomainObjetc(RestauranteInputDTO restauranteInputDTO,Restaurante restaurante) {
         restaurante.setCozinha(new Cozinha());
+
+        if (restaurante.getEndereco() != null) {
+            restaurante.getEndereco().setCidade(new Cidade());
+        }
         modelMapper.map(restauranteInputDTO,restaurante);
     }
 }

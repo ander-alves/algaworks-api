@@ -1,14 +1,12 @@
 package com.algaworks.algaworksapi.domain.service;
 
 import com.algaworks.algaworksapi.domain.exception.RestauranteNaoEncontradoException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.algaworks.algaworksapi.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algaworksapi.domain.model.Cidade;
 import com.algaworks.algaworksapi.domain.model.Cozinha;
 import com.algaworks.algaworksapi.domain.model.Restaurante;
-import com.algaworks.algaworksapi.domain.repository.CozinhaRepository;
 import com.algaworks.algaworksapi.domain.repository.RestauranteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
@@ -24,16 +22,22 @@ public class CadastroRestauranteService {
 	@Autowired
 	private CadastroCozinhaService cadastroCozinha;
 
+	@Autowired
+	private CadastroCidadeService cadastroCidadeService;
+
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
+		Long cidadeId = restaurante.getEndereco().getCidade().getId();
 
 		Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
+		Cidade cidade =	cadastroCidadeService.buscarOuFalhar(cidadeId);
 
 //		Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
 //			.orElseThrow(() -> new EntidadeNaoEncontradaException(
 //					String.format("Não existe cadastro de cozinha com código %d", cozinhaId)));
 
 		restaurante.setCozinha(cozinha);
+		restaurante.getEndereco().setCidade(cidade);
 
 		return restauranteRepository.save(restaurante);
 	}
