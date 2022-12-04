@@ -1,7 +1,7 @@
 package com.algaworks.algaworksapi.api.controller;
 
-import com.algaworks.algaworksapi.api.converter.RestauranteDtoConverter;
-import com.algaworks.algaworksapi.api.converter.RestauranteInputConverter;
+import com.algaworks.algaworksapi.api.converter.RestauranteConverterToDTO;
+import com.algaworks.algaworksapi.api.converter.RestauranteInputDTOConverterToRestaurante;
 import com.algaworks.algaworksapi.api.model.RestauranteDTO;
 import com.algaworks.algaworksapi.api.model.input.RestauranteInputDTO;
 import com.algaworks.algaworksapi.domain.exception.CozinhaNaoEncontradaException;
@@ -10,7 +10,6 @@ import com.algaworks.algaworksapi.domain.exception.NegocioException;
 import com.algaworks.algaworksapi.domain.model.Restaurante;
 import com.algaworks.algaworksapi.domain.repository.RestauranteRepository;
 import com.algaworks.algaworksapi.domain.service.CadastroRestauranteService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,30 +29,30 @@ public class RestauranteController {
     private CadastroRestauranteService cadastroRestaurante;
 
     @Autowired
-    RestauranteDtoConverter restauranteDtoConverter;
+    RestauranteConverterToDTO restauranteConverterToDto;
 
     @Autowired
-    RestauranteInputConverter restauranteInputConverter;
+    RestauranteInputDTOConverterToRestaurante restauranteInputDTOConverterToRestaurante;
 
     @GetMapping
     public List<RestauranteDTO> listar() {
-        return restauranteDtoConverter.toCollectionDTO(restauranteRepository.findAll());
+        return restauranteConverterToDto.toCollectionDTO(restauranteRepository.findAll());
     }
 
     @GetMapping("/{restauranteId}")
     public RestauranteDTO buscar(@PathVariable Long restauranteId) {
         Restaurante restaurante = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-        return restauranteDtoConverter.toDTO(restaurante);
+        return restauranteConverterToDto.toDTO(restaurante);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteDTO adicionar(@RequestBody @Valid RestauranteInputDTO restauranteInput) {
+    public RestauranteDTO adicionar(@RequestBody @Valid RestauranteInputDTO restauranteInputDTO) {
         try {
-            Restaurante restaurante = restauranteInputConverter.toDomainObject(restauranteInput);
+            Restaurante restaurante = restauranteInputDTOConverterToRestaurante.toDomainObject(restauranteInputDTO);
 
-            return restauranteDtoConverter.toDTO(cadastroRestaurante.salvar(restaurante));
+            return restauranteConverterToDto.toDTO(cadastroRestaurante.salvar(restaurante));
         } catch (CozinhaNaoEncontradaException e) {
             throw new NegocioException(e.getMessage(), e);
         }
@@ -66,13 +65,24 @@ public class RestauranteController {
 
         Restaurante restauranteAtual = cadastroRestaurante.buscarOuFalhar(restauranteId);
 
-        restauranteInputConverter.copyToDomainObjetc(restauranteInput, restauranteAtual);
+        restauranteInputDTOConverterToRestaurante.copyToDomainObjetc(restauranteInput, restauranteAtual);
 
         try {
-            return restauranteDtoConverter.toDTO(cadastroRestaurante.salvar(restauranteAtual));
+            return restauranteConverterToDto.toDTO(cadastroRestaurante.salvar(restauranteAtual));
         } catch (EntidadeNaoEncontradaException e) {
             throw new NegocioException(e.getMessage(), e);
         }
+    }
+
+    @PutMapping("/{restauranteId}/ativo")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void ativar (@PathVariable Long restauranteId) {
+        cadastroRestaurante.ativar(restauranteId);
+    }
+    @DeleteMapping("/{restauranteId}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void inativar (@PathVariable Long restauranteId) {
+        cadastroRestaurante.inativar(restauranteId);
     }
 
 }

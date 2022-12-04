@@ -10,6 +10,8 @@ import com.algaworks.algaworksapi.domain.model.Restaurante;
 import com.algaworks.algaworksapi.domain.repository.CozinhaRepository;
 import com.algaworks.algaworksapi.domain.repository.RestauranteRepository;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CadastroRestauranteService {
 
@@ -34,6 +36,19 @@ public class CadastroRestauranteService {
 		restaurante.setCozinha(cozinha);
 
 		return restauranteRepository.save(restaurante);
+	}
+
+	@Transactional
+	public void ativar(Long restauranteId) {
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+		restauranteAtual.setAtivo(true); // 01 Modelo de Troca de Status.
+	}
+	@Transactional
+	public void inativar(Long restauranteId) {
+		Restaurante restauranteAtual = buscarOuFalhar(restauranteId);
+
+		restauranteAtual.inativar(); // 02 Modelo de troca de status.
 	}
 
 	public Restaurante buscarOuFalhar(Long restauranteId) {
