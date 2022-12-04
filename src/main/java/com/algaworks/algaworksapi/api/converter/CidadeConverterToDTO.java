@@ -1,9 +1,7 @@
 package com.algaworks.algaworksapi.api.converter;
 
 import com.algaworks.algaworksapi.api.model.CidadeDTO;
-import com.algaworks.algaworksapi.api.model.input.CidadeInputDTO;
 import com.algaworks.algaworksapi.domain.model.Cidade;
-import com.algaworks.algaworksapi.domain.model.Estado;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,9 +13,10 @@ import java.util.stream.Collectors;
 public class CidadeConverterToDTO {
 
     @Autowired
-    private  ModelMapper modelMapper;
+    private ModelMapper modelMapper;
+
     public CidadeDTO toDTO(Cidade cidade) {
-        return modelMapper.map(cidade,CidadeDTO.class);
+        return modelMapper.map(cidade, CidadeDTO.class);
     }
 
     public List<CidadeDTO> toCollectionDTO(List<Cidade> cidades) {
@@ -25,7 +24,5 @@ public class CidadeConverterToDTO {
                 .map(cidade -> toDTO(cidade))
                 .collect(Collectors.toList());
     }
-
-
 
 }

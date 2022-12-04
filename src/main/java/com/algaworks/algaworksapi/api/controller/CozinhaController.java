@@ -3,7 +3,6 @@ package com.algaworks.algaworksapi.api.controller;
 import com.algaworks.algaworksapi.api.converter.CozinhaConverterToDTO;
 import com.algaworks.algaworksapi.api.converter.CozinhaInputDTOConverterToCozinha;
 import com.algaworks.algaworksapi.api.model.CozinhaDTO;
-import com.algaworks.algaworksapi.api.model.input.CozinhaIdInputDTO;
 import com.algaworks.algaworksapi.api.model.input.CozinhaInputDTO;
 import com.algaworks.algaworksapi.domain.model.Cozinha;
 import com.algaworks.algaworksapi.domain.repository.CozinhaRepository;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/cozinhas")
