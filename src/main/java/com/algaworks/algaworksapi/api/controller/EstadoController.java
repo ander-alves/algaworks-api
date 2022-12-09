@@ -3,6 +3,10 @@ package com.algaworks.algaworksapi.api.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.algaworks.algaworksapi.api.converter.EstadoConverterToDTO;
+import com.algaworks.algaworksapi.api.converter.EstadoInputDTOConverterToEstado;
+import com.algaworks.algaworksapi.api.model.EstadoDTO;
+import com.algaworks.algaworksapi.api.model.input.EstadoInputDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,31 +38,44 @@ public class EstadoController {
 	
 	@Autowired
 	private CadastroEstadoService cadastroEstado;
+
+	@Autowired
+	private EstadoConverterToDTO estadoConverterToDTO;
+
+	@Autowired
+	private EstadoInputDTOConverterToEstado estadoInputDTOConverterToEstado;
 	
 	@GetMapping
-	public List<Estado> listar() {
-		return estadoRepository.findAll();
+	public List<EstadoDTO> listar() {
+		return estadoConverterToDTO.toCollectionDTO(estadoRepository.findAll());
 	}
 	
 	@GetMapping("/{estadoId}")
-	public Estado buscar(@PathVariable Long estadoId) {
-		return cadastroEstado.buscarOuFalhar(estadoId);
+	public EstadoDTO buscar(@PathVariable Long estadoId) {
+		return estadoConverterToDTO.toDTO(cadastroEstado.buscarOuFalhar(estadoId));
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Estado adicionar(@RequestBody @Valid Estado estado) {
-		return cadastroEstado.salvar(estado);
+	public EstadoDTO adicionar(@RequestBody @Valid EstadoInputDTO estadoInputDTO) {
+		Estado estado = estadoInputDTOConverterToEstado.toDomainObject(estadoInputDTO);
+
+		return estadoConverterToDTO.toDTO(cadastroEstado.salvar(estado));
 	}
 
 	@PutMapping("/{estadoId}")
-	public Estado atualizar(@PathVariable Long estadoId,
-							@RequestBody @Valid Estado estado) {
+	public EstadoDTO atualizar(@PathVariable Long estadoId,
+							@RequestBody @Valid EstadoInputDTO estadoInputDTO) {
 		Estado estadoAtual = cadastroEstado.buscarOuFalhar(estadoId);
-		BeanUtils.copyProperties(estado, estadoAtual, "id");
-		return cadastroEstado.salvar(estadoAtual);
+
+		estadoInputDTOConverterToEstado.copyToDomainObject(estadoInputDTO, estadoAtual);
+
+		estadoAtual = cadastroEstado.salvar(estadoAtual);
+
+		return estadoConverterToDTO.toDTO(estadoAtual);
 	}
-	
+
+
 	@DeleteMapping("/{estadoId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long estadoId) {

@@ -1,0 +1,29 @@
+package com.algaworks.algaworksapi.api.converter;
+
+import com.algaworks.algaworksapi.api.model.input.RestauranteInputDTO;
+import com.algaworks.algaworksapi.domain.model.Cidade;
+import com.algaworks.algaworksapi.domain.model.Cozinha;
+import com.algaworks.algaworksapi.domain.model.Restaurante;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class RestauranteInputDTOConverterToRestaurante {
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public Restaurante toDomainObject(RestauranteInputDTO restauranteInputDTO) {
+        return modelMapper.map(restauranteInputDTO, Restaurante.class);
+
+    }
+    public void copyToDomainObjetc(RestauranteInputDTO restauranteInputDTO,Restaurante restaurante) {
+        restaurante.setCozinha(new Cozinha());
+
+        if (restaurante.getEndereco() != null) {
+            restaurante.getEndereco().setCidade(new Cidade());
+        }
+        modelMapper.map(restauranteInputDTO,restaurante);
+    }
+}
