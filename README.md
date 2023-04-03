@@ -1,6 +1,6 @@
 <h1 align="center">Especialista Spring REST (ESR) da AlgaWorks </h1>
 
-<p align="center">API REST dessenvolvida no Curso de Spring 2022</p>
+<p align="center">API REST desenvolvida no Curso de Spring 2022</p>
 
 <h1 align="center"> <img class="ml-4 w-8 h-8 sm:w-10 sm:h-10" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring">
 <a > Spring</a> </h1>
