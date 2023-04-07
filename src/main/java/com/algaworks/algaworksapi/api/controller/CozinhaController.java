@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/cozinhas")
@@ -40,6 +39,11 @@ public class CozinhaController {
 	public CozinhaDTO buscar(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cadastroCozinha.buscarOuFalhar(cozinhaId);
 
+		return cozinhaConverterToDTO.toDTO(cozinha);
+	}
+	@GetMapping("/nome/{nome}")
+	public CozinhaDTO buscarPorNome(@PathVariable String nome) {
+		Cozinha cozinha = cadastroCozinha.buscarPorNome(nome);
 		return cozinhaConverterToDTO.toDTO(cozinha);
 	}
 	
