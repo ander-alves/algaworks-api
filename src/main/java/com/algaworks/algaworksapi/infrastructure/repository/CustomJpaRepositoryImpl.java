@@ -1,13 +1,11 @@
 package com.algaworks.algaworksapi.infrastructure.repository;
 
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
-
+import com.algaworks.algaworksapi.domain.repository.CustomJpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
-import com.algaworks.algaworksapi.domain.repository.CustomJpaRepository;
+import javax.persistence.EntityManager;
+import java.util.Optional;
 
 public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID>
 	implements CustomJpaRepository<T, ID> {
@@ -30,6 +28,11 @@ public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID>
 			.getSingleResult();
 		
 		return Optional.ofNullable(entity);
+	}
+
+	@Override
+	public void detach(T entity) {
+		manager.detach(entity);
 	}
 
 }

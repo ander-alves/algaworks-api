@@ -43,5 +43,9 @@ public class CadastroCozinhaService {
 		return cozinhaRepository.findById(cozinhaId)
 				.orElseThrow(() ->new CozinhaNaoEncontradaException(cozinhaId));
 	}
-	
+
+	public Cozinha buscarPorNome(String nome) {
+		return cozinhaRepository.findByNome(nome)
+				.orElseThrow(() -> new CozinhaNaoEncontradaException(nome));
+	}
 }
