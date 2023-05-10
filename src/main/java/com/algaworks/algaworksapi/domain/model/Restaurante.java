@@ -16,8 +16,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -62,7 +61,72 @@ public class Restaurante {
 	@JoinTable(name = "restaurante_forma_pagamento",
 			joinColumns = @JoinColumn(name = "restaurante_id"),
 			inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-	private List<FormaPagamento> formasPagamento = new ArrayList<>();
+	private Set<FormaPagamento> formasPagamento = new Set<FormaPagamento>() {
+		@Override
+		public int size() {
+			return 0;
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return false;
+		}
+
+		@Override
+		public boolean contains(Object o) {
+			return false;
+		}
+
+		@Override
+		public Iterator<FormaPagamento> iterator() {
+			return null;
+		}
+
+		@Override
+		public Object[] toArray() {
+			return new Object[0];
+		}
+
+		@Override
+		public <T> T[] toArray(T[] a) {
+			return null;
+		}
+
+		@Override
+		public boolean add(FormaPagamento formaPagamento) {
+			return false;
+		}
+
+		@Override
+		public boolean remove(Object o) {
+			return false;
+		}
+
+		@Override
+		public boolean containsAll(Collection<?> c) {
+			return false;
+		}
+
+		@Override
+		public boolean addAll(Collection<? extends FormaPagamento> c) {
+			return false;
+		}
+
+		@Override
+		public boolean retainAll(Collection<?> c) {
+			return false;
+		}
+
+		@Override
+		public boolean removeAll(Collection<?> c) {
+			return false;
+		}
+
+		@Override
+		public void clear() {
+
+		}
+	};
 	
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
@@ -71,4 +135,11 @@ public class Restaurante {
 		setAtivo(false);
 	}
 
+	public boolean removerFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().remove(formaPagamento);
+	}
+
+	public boolean associarFormaPagamento(FormaPagamento formaPagamento) {
+		return getFormasPagamento().add(formaPagamento);
+	}
 }

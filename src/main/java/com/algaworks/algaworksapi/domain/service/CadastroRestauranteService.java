@@ -3,6 +3,7 @@ package com.algaworks.algaworksapi.domain.service;
 import com.algaworks.algaworksapi.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algaworksapi.domain.model.Cidade;
 import com.algaworks.algaworksapi.domain.model.Cozinha;
+import com.algaworks.algaworksapi.domain.model.FormaPagamento;
 import com.algaworks.algaworksapi.domain.model.Restaurante;
 import com.algaworks.algaworksapi.domain.repository.RestauranteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class CadastroRestauranteService {
 
 	@Autowired
 	private CadastroCidadeService cadastroCidadeService;
+
+	@Autowired
+	private CadastroFormaPagamentoService cadastroFormaPagamento;
 
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
@@ -54,6 +58,24 @@ public class CadastroRestauranteService {
 
 		restauranteAtual.inativar(); // 02 Modelo de troca de status.
 	}
+
+
+	@Transactional
+	public void desassociarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+
+		restaurante.removerFormaPagamento(formaPagamento);
+	}
+
+	@Transactional
+	public void associarFormaPagamento(Long restauranteId, Long formaPagamentoId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		FormaPagamento formaPagamento = cadastroFormaPagamento.buscarOuFalhar(formaPagamentoId);
+
+		restaurante.associarFormaPagamento(formaPagamento);
+	}
+
 
 	public Restaurante buscarOuFalhar(Long restauranteId) {
 		return restauranteRepository.findById(restauranteId)
